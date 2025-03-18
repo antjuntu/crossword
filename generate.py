@@ -2,7 +2,7 @@ import sys
 
 from crossword import *
 
-# python generate.py data\structure0.txt data\words0.txt
+# python generate.py data\structure1.txt data\words1.txt
 class CrosswordCreator():
 
     def __init__(self, crossword):
@@ -186,7 +186,21 @@ class CrosswordCreator():
         The first value in the list, for example, should be the one
         that rules out the fewest values among the neighbors of `var`.
         """
-        return list(self.domains[var])
+        values = [] # list of tuples of (value, n_constrained_variables)
+        neighbors_vars = self.crossword.neighbors(var)
+        # remove assigned variables
+        neighbors_vars -= assignment.keys()
+        for value in self.domains[var]:
+            n_constr_vars = 0
+            for neighb_var in neighbors_vars:
+                if value in self.domains[neighb_var]:
+                    n_constr_vars += 1
+            values.append((value, n_constr_vars))
+            
+        # sort by n_constrained_variables
+        values.sort(key=lambda t: t[1])
+        # return just list of values
+        return [t[0] for t in values]
 
     def select_unassigned_variable(self, assignment):
         """
@@ -196,7 +210,16 @@ class CrosswordCreator():
         degree. If there is a tie, any of the tied variables are acceptable
         return values.
         """
-        return list(self.crossword.variables - assignment.keys())
+        unassigned_vars = self.crossword.variables - assignment.keys()
+        vars = [] # list of tuples of [var, MRV, degree]
+        for var in unassigned_vars:
+            # count remaining values
+            mrv = len(self.domains[var])
+            # count degree of var
+            degree = len(self.crossword.neighbors(var))
+            vars.append((var, mrv, degree))
+        vars.sort(key=lambda t: (t[1], t[2]))
+        return [t[0] for t in vars]
         
 
     def backtrack(self, assignment):
@@ -236,6 +259,7 @@ def main():
     # Generate crossword
     crossword = Crossword(structure, words)
     creator = CrosswordCreator(crossword)
+    print('SOLVE')
     assignment = creator.solve()
 
     # Print result

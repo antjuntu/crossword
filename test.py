@@ -3,8 +3,29 @@ from generate import *
 
 
 def main():
+    # set1 = {1,2,3}
+    # set2 = {2,3,4,5,6,7,8,9}
+    # set1 -= set2
+    # print(set1)
+    
+    a = [('yksi',1), ('kolme', 3), ('kaksi', 2)]
+    print(a)
+    a.sort(key=lambda tup: tup[1])
+    print(a)
+
+    result = [t[0] for t in a]
+    print(result)
+
+
+
+
     structure = 'data\structure0.txt'
+    structure = 'data\structure1.txt'
+    structure = 'data\structure2.txt'
     words = 'data\words0.txt'
+    words = 'data\words1.txt'
+    words = 'data\words2.txt'
+
     output = None
     #output = 'data\image0.jpg'
 
