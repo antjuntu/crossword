@@ -173,7 +173,9 @@ class CrosswordCreator():
         puzzle without conflicting characters); return False otherwise.
         """
         #consistent identifies when assignment doesn't meet unary constraints
-        if assignment:
+        for var in assignment:
+            if var.length != len(assignment[var]):
+                return False
 
         for (x, y) in self.crossword.overlaps:
             if self.crossword.overlaps[x,y] and (x in assignment) and (y in assignment):
