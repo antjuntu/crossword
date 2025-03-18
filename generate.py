@@ -131,6 +131,7 @@ class CrosswordCreator():
 
 
     def ac3(self, arcs=None):
+        return 0
         """
         Update `self.domains` such that each variable is arc consistent.
         If `arcs` is None, begin with initial list of all arcs in the problem.
@@ -140,7 +141,6 @@ class CrosswordCreator():
         return False if one or more domains end up empty.
         """
         if arcs:
-            if len(arcs) == 0: return
             queue = arcs
         else:
             queue = []
