@@ -131,6 +131,7 @@ class CrosswordCreator():
 
 
     def ac3(self, arcs=None):
+
         """
         Update `self.domains` such that each variable is arc consistent.
         If `arcs` is None, begin with initial list of all arcs in the problem.
@@ -139,13 +140,14 @@ class CrosswordCreator():
         Return True if arc consistency is enforced and no domains are empty;
         return False if one or more domains end up empty.
         """
-        if arcs:
-            queue = arcs
-        else:
+        if arcs is None:
             queue = []
             for key, value in self.crossword.overlaps.items():
                 if value:
                     queue.append(key)
+        else:
+            queue = arcs
+
 
         while len(queue) > 0:
             x, y = queue[-1]
