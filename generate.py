@@ -128,7 +128,7 @@ class CrosswordCreator():
 
 
         return changed
-            
+
 
     def ac3(self, arcs=None):
         """
@@ -140,6 +140,7 @@ class CrosswordCreator():
         return False if one or more domains end up empty.
         """
         if arcs:
+            if len(arcs) == 0: return
             queue = arcs
         else:
             queue = []
@@ -196,7 +197,7 @@ class CrosswordCreator():
                 if value in self.domains[neighb_var]:
                     n_constr_vars += 1
             values.append((value, n_constr_vars))
-            
+
         # sort by n_constrained_variables
         values.sort(key=lambda t: t[1])
         # return just list of values
@@ -220,7 +221,7 @@ class CrosswordCreator():
             vars.append((var, mrv, degree))
         vars.sort(key=lambda t: (t[1], t[2]))
         return [t[0] for t in vars]
-        
+
 
     def backtrack(self, assignment):
         """
