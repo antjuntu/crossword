@@ -168,12 +168,13 @@ class CrosswordCreator():
         return len(assignment) == len(self.crossword.variables)
 
     def consistent(self, assignment):
-        #consistent identifies when assignment doesn't meet unary constraints
         """
         Return True if `assignment` is consistent (i.e., words fit in crossword
         puzzle without conflicting characters); return False otherwise.
         """
-        
+        #consistent identifies when assignment doesn't meet unary constraints
+        if assignment:
+
         for (x, y) in self.crossword.overlaps:
             if self.crossword.overlaps[x,y] and (x in assignment) and (y in assignment):
                 i, j = self.crossword.overlaps[x,y]
