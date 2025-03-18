@@ -10,9 +10,9 @@ def main():
 
     # Generate crossword
     crossword = Crossword(structure, words)
-    print('Variables:')
-    for v in crossword.variables:
-        print(v)
+    # print('Variables:')
+    # for v in crossword.variables:
+    #     print(v)
     creator = CrosswordCreator(crossword)
 
     # print('Domains before enforce_node_consistency:')

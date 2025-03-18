@@ -91,7 +91,7 @@ class CrosswordCreator():
         """
         self.enforce_node_consistency()
         self.ac3()
-        #return self.backtrack(dict())
+        return self.backtrack(dict())
 
     def enforce_node_consistency(self):
         """
@@ -163,14 +163,21 @@ class CrosswordCreator():
         Return True if `assignment` is complete (i.e., assigns a value to each
         crossword variable); return False otherwise.
         """
-        raise NotImplementedError
+        return len(assignment) == len(self.crossword.variables)
 
     def consistent(self, assignment):
         """
         Return True if `assignment` is consistent (i.e., words fit in crossword
         puzzle without conflicting characters); return False otherwise.
         """
-        raise NotImplementedError
+        for (x, y) in self.crossword.overlaps:
+            if self.crossword.overlaps[x,y] and (x in assignment) and (y in assignment):
+                i, j = self.crossword.overlaps[x,y]
+                if assignment[x][i] != assignment[y][j]:
+                    return False
+        return True
+
+
 
     def order_domain_values(self, var, assignment):
         """
@@ -179,7 +186,7 @@ class CrosswordCreator():
         The first value in the list, for example, should be the one
         that rules out the fewest values among the neighbors of `var`.
         """
-        raise NotImplementedError
+        return list(self.domains[var])
 
     def select_unassigned_variable(self, assignment):
         """
@@ -189,7 +196,8 @@ class CrosswordCreator():
         degree. If there is a tie, any of the tied variables are acceptable
         return values.
         """
-        raise NotImplementedError
+        return list(self.crossword.variables - assignment.keys())
+        
 
     def backtrack(self, assignment):
         """
@@ -200,7 +208,18 @@ class CrosswordCreator():
 
         If no assignment is possible, return None.
         """
-        raise NotImplementedError
+        if self.assignment_complete(assignment):
+            return assignment
+        var = self.select_unassigned_variable(assignment)[0]
+        for value in self.order_domain_values(var, assignment):
+            new_assignment = assignment.copy()
+            new_assignment[var] = value
+            if self.consistent(new_assignment):
+                result = self.backtrack(new_assignment)
+                if result is not None:
+                    return result
+        return None
+
 
 
 def main():
